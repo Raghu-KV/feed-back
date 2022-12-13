@@ -1,16 +1,15 @@
-import { useState } from "react";
+import Card from "./shared/Card";
+import { FaTimes } from "react-icons/fa";
 
-function FeedbackItem() {
-  const [rating, setRating] = useState(0);
-  const [feedback, SetFeedback] = useState(
-    "this is an example of a feed back item"
-  );
-
+function FeedbackItem({ item, handleDelete2 }) {
   return (
-    <div className="card">
-      <div className="num-display">{rating}</div>
-      <div className="text-display">{feedback}</div>
-    </div>
+    <Card>
+      <div className="num-display">{item.rating}</div>
+      <button className="close" onClick={() => handleDelete2(item.id)}>
+        <FaTimes color="purple" />
+      </button>
+      <div className="text-display">{item.text}</div>
+    </Card>
   );
 }
 
