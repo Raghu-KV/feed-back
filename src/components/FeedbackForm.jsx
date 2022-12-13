@@ -2,18 +2,20 @@ import React from "react";
 import Card from "./shared/Card";
 import { useState } from "react";
 import Button from "./shared/Button";
+import RatingSelect from "./RatingSelect";
 
-function FeedbackForm() {
+function FeedbackForm({ getNewFeedback }) {
   const [textFeedback, setTextFeedback] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [errorMsg, setErrorMsg] = useState();
 
+  const [selected, setSelected] = useState(0);
+
   const handleTextChange = (event) => {
-    // console.log(textFeedback, "top");
     if (!textFeedback) {
       setDisabled(true);
-      setErrorMsg("ok");
-    } else if (textFeedback && textFeedback.trim().length <= 10) {
+      setErrorMsg("null");
+    } else if (textFeedback && textFeedback.trim().length < 11) {
       setDisabled(true);
       setErrorMsg("feed back must be more than 10 characters");
     } else {
@@ -23,19 +25,32 @@ function FeedbackForm() {
     setTextFeedback(event.target.value);
   };
 
-  //   function test() {
-  //     console.log(textFeedback, "outside");
-  //   }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (textFeedback.trim().length > 10) {
+      const newFeedback = {
+        text: textFeedback,
+        rating: selected,
+      };
+
+      getNewFeedback(newFeedback);
+
+      setTextFeedback("");
+      setSelected(0);
+    }
+  };
 
   return (
     <Card>
-      <form>
+      <form onSubmit={handleSubmit}>
         <h2>Provied your rating</h2>
+        <RatingSelect selected={selected} setSelected={setSelected} />
         <div className="input-group">
           <input
             type="text"
             onChange={handleTextChange}
             placeholder="write a review"
+            value={textFeedback}
           />
           <Button type="submit" isDisabled={disabled}>
             submit
