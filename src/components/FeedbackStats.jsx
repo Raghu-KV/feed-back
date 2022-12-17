@@ -1,6 +1,10 @@
 import React from "react";
+import { useContext } from "react";
+import { data } from "../ContextOp";
 
-function FeedbackStats({ feedback }) {
+function FeedbackStats() {
+  const { feedback } = useContext(data);
+
   let average =
     feedback.reduce((acc, cur) => {
       return acc + cur.rating;

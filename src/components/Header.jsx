@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Header({ text, textColor, bGColor }) {
   const design = {
     color: textColor,
@@ -6,7 +8,9 @@ function Header({ text, textColor, bGColor }) {
   return (
     <header style={design}>
       <div className="container">
-        <h2>{text}</h2>
+        <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+          <h2>{text}</h2>
+        </Link>
       </div>
     </header>
   );

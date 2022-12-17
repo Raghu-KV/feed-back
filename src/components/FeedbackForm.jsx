@@ -1,20 +1,24 @@
 import React from "react";
 import Card from "./shared/Card";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "./shared/Button";
 import RatingSelect from "./RatingSelect";
 
-function FeedbackForm({ getNewFeedback }) {
+import { useContext } from "react";
+import { data } from "../ContextOp";
+
+function FeedbackForm() {
+  const { addFeed, feedbackEdit, updateFeedback } = useContext(data);
   const [textFeedback, setTextFeedback] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [errorMsg, setErrorMsg] = useState();
 
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(5);
 
   const handleTextChange = (event) => {
     if (!textFeedback) {
       setDisabled(true);
-      setErrorMsg("null");
+      setErrorMsg(null);
     } else if (textFeedback && textFeedback.trim().length < 11) {
       setDisabled(true);
       setErrorMsg("feed back must be more than 10 characters");
@@ -33,12 +37,30 @@ function FeedbackForm({ getNewFeedback }) {
         rating: selected,
       };
 
-      getNewFeedback(newFeedback);
+      if (feedbackEdit.edit === true) {
+        updateFeedback(feedbackEdit.item.id, newFeedback);
+      } else {
+        addFeed(newFeedback);
+      }
 
       setTextFeedback("");
-      setSelected(0);
+      setSelected(5);
     }
   };
+
+  useEffect(() => {
+    if (feedbackEdit.edit === true) {
+      setDisabled(false);
+      setTextFeedback(feedbackEdit.item.text);
+      setSelected(feedbackEdit.item.rating);
+    }
+  }, [feedbackEdit]);
+
+  // if (feedbackEdit.edit === true) {
+  //   setDisabled(false);
+  //   setTextFeedback(feedbackEdit.item.text);
+  //   setSelected(feedbackEdit.item.rating);
+  // }
 
   return (
     <Card>
@@ -58,7 +80,6 @@ function FeedbackForm({ getNewFeedback }) {
         </div>
         {errorMsg && <div className="message">{errorMsg}</div>}
       </form>
-      {/* <button onClick={test}>oooooo</button> */}
     </Card>
   );
 }
