@@ -4,9 +4,11 @@ import { useContext } from "react";
 import { data } from "../ContextOp";
 
 function FeedbackList() {
-  const { feedback } = useContext(data);
+  const { feedback, isLoading } = useContext(data);
 
-  if (feedback.length === 0) return <p>NO feed back to display</p>;
+  if (isLoading === true) return <h3>Loading...</h3>;
+  if (feedback.length === 0 && isLoading === false)
+    return <p>NO feed back to display</p>;
   return (
     <div className="feedback-list">
       <AnimatePresence>
