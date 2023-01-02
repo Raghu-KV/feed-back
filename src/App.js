@@ -44,7 +44,6 @@ function App() {
             />
             <Route path="/about" element={<AboutPage />} />
           </Routes>
-
           <AboutLink />
         </div>
       </ContextOp>
