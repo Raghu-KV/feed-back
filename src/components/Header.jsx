@@ -8,7 +8,7 @@ function Header({ text, textColor, bGColor }) {
   return (
     <header style={design}>
       <div className="container">
-        <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+        <Link to="/" style={{ textDecoration: "none", color: "#ff6a95" }}>
           <h2>{text}</h2>
         </Link>
       </div>
